@@ -1,0 +1,17 @@
+.pokemonContainer{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+.pokemonCard {
+    background-color: lightblue;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px #3B4CCA;
+    padding: 35px;
+    text-align: center;
+    width: 200px;   
+}
+#pokemonImage {
+    max-width: 150px;
+}

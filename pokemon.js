@@ -1,18 +1,36 @@
-
 const baseURL = "https://pokeapi.co/api/v2/";
 pokemon();
 
-
  async function pokemon(){
-  for(let pokemonID = 1; pokemonID < 20; pokemonID++){
-   let pokemonNum = await getPokemonByPokedexNumber(pokemonID);
-   let container = document.querySelector(".pokemonContainer");
-   let template = pokemonTemplate(pokemonNum);
-    renderPokemonTemplate(template, container);
-  }
-}
+  const array = Array(100).fill(1).map((n, i) => n + i);
+  let pokemonArray = [];
+  let valuearray = new Array;
+
+  array.forEach(element => {
+    let pokemonNum = getPokemonByPokedexNumber(element);
+
+    let myPromise = new Promise(function(myResolve, myReject){
+      myResolve(pokemonNum);
+      myReject(pokemonNum);
+    });
+
+    myPromise.then(
+       function(value) {
+        let container = document.querySelector(".pokemonContainer");
+   let template = pokemonTemplate(value);
+  renderPokemonTemplate(template, container);
+        },
 
 
+      function(error) {  }
+    );
+
+
+  });
+
+
+          
+ }
 
 function convertToJson(res) {
     if (res.ok) {
@@ -25,7 +43,6 @@ function convertToJson(res) {
  async function getPokemonByPokedexNumber(id) {
   const response = await fetch(baseURL + `pokemon/${id}`);
   const pokemon = await convertToJson(response);
-  console.log(pokemon);
    return pokemon;
 }
 
@@ -55,12 +72,11 @@ function getImage(pokemon){
   if(pokemon.sprites.other.home.front_default == null){
     return`${pokemon.sprites.front_default}`;
   }
- else { return `${pokemon.sprites.other."official-artworkfront_default}` }
+ else { return `${pokemon.sprites.other.home.front_default}` }
 }
 
 function renderPokemonTemplate(template, container) {
   const card = document.createElement("div");
   card.innerHTML = template;
-  console.log(card)
   container.appendChild(card);
 }

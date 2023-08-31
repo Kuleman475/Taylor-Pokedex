@@ -2,10 +2,9 @@ const baseURL = "https://pokeapi.co/api/v2/";
 pokemon();
 
  async function pokemon(){
-  //const array = Array(100).fill(1).map((n, i) => n + i);
 
   let pokemonArray = [];
-  for(let p = 1; p <= 1001; p++) {
+  for(let p = 152; p <= 251; p++) {
     let pokemonNum = getPokemonByPokedexNumber(p);
     pokemonArray.push(pokemonNum);
   }
@@ -15,9 +14,9 @@ Promise.all(pokemonArray).then( results => {
       let container = document.querySelector(".pokemonContainer");
   let template = pokemonTemplate(result);
  renderPokemonTemplate(template, container);
-console.log(result.id)
   })
 })
+
  }
 
 
@@ -50,13 +49,14 @@ function convertToJson(res) {
 
  function pokemonTemplate(pokemon) {
    return `<div class="pokemonCard">
+   <a href="./pokemonPage.html?pokemon=${pokemon.id}">
    <h3 id="pokemonName">${pokemon.name}</h3>
    <h4 id="pokemonNumber">${pokemon.id}</h4>
    <p id="pokemonAbility">${pokemon.abilities[0].ability.name}</p>
    <img id="pokemonImage" src="${getImage(pokemon)}">
+   </a>
    </div>`;
 }
-
 function getImage(pokemon){
   if(pokemon.sprites.other.home.front_default == null){
     return`${pokemon.sprites.front_default}`;

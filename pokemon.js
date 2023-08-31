@@ -2,35 +2,24 @@ const baseURL = "https://pokeapi.co/api/v2/";
 pokemon();
 
  async function pokemon(){
-  const array = Array(100).fill(1).map((n, i) => n + i);
+  //const array = Array(100).fill(1).map((n, i) => n + i);
+
   let pokemonArray = [];
-  let valuearray = new Array;
+  for(let p = 1; p <= 1001; p++) {
+    let pokemonNum = getPokemonByPokedexNumber(p);
+    pokemonArray.push(pokemonNum);
+  }
 
-  array.forEach(element => {
-    let pokemonNum = getPokemonByPokedexNumber(element);
-
-    let myPromise = new Promise(function(myResolve, myReject){
-      myResolve(pokemonNum);
-      myReject(pokemonNum);
-    });
-
-    myPromise.then(
-       function(value) {
-        let container = document.querySelector(".pokemonContainer");
-   let template = pokemonTemplate(value);
-  renderPokemonTemplate(template, container);
-        },
-
-
-      function(error) {  }
-    );
-
-
-  });
-
-
-          
+Promise.all(pokemonArray).then( results => {
+  results.map((result) => {
+      let container = document.querySelector(".pokemonContainer");
+  let template = pokemonTemplate(result);
+ renderPokemonTemplate(template, container);
+console.log(result.id)
+  })
+})
  }
+
 
 function convertToJson(res) {
     if (res.ok) {
